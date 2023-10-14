@@ -35,3 +35,8 @@ For Security Vulnerabilities
 cargo install cargo-audit
 cargo audit
 ```
+For Code Expansion
+```
+cargo install cargo-expand
+cargo expand
+```
