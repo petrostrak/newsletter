@@ -40,3 +40,11 @@ For Code Expansion
 cargo install cargo-expand
 cargo expand
 ```
+Adding a Migration
+```bash
+sqlx migrate add create_subscriptions_table
+```
+Running Migrations
+```bash
+SKIP_DOCKER = true ./scripts/init_db.sh
+```
