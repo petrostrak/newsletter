@@ -34,7 +34,7 @@ async fn subscribe_returns_a_200_for_valid_form_data() {
     let connextion_string = configuration.database.connection_string();
 
     // The connection trait MUST be in scope for us to invoke PgConnection::connect
-    let connection = PgConnection::connect(&connextion_string)
+    let mut connection = PgConnection::connect(&connextion_string)
         .await
         .expect("Failed to connect to Postgres.");
 
@@ -50,6 +50,14 @@ async fn subscribe_returns_a_200_for_valid_form_data() {
         .expect("Failed to execute request.");
 
     assert_eq!(200, response.status().as_u16());
+
+    let saved = sqlx::query!("SELECT email, name FROM subscriptions")
+        .fetch_one(&mut connection)
+        .await
+        .expect("Failed to fetch saved subscriptions.");
+
+    assert_eq!(saved.email, "ursula_le_guin@gmail.com");
+    assert_eq!(saved.name, "le_guin");
 }
 
 #[tokio::test]
